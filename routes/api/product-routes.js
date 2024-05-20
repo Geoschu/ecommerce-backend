@@ -8,13 +8,17 @@ router.get("/", async (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
   const products = await Product.findAll({ include: [Category, Tag] });
-  res.json(products);
+  res.status(200).json(products);
 });
 
 // get one product
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
+  const product = await Product.findByPk(req.params.id, {
+    include: [Category, Tag],
+  });
+  res.json(product);
 });
 
 // create new product
